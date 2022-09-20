@@ -17,3 +17,10 @@ export function $getData(url,params) {
         data: params
     })
 }
+export function $POST(url,data){
+    return server({
+        url,
+        method: 'post',
+        data
+    })
+}

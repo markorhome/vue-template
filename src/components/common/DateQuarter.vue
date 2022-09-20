@@ -1,88 +1,80 @@
 <template>
   <div class="quarter_container">
-    <div class="quarter" @click="selectMask">
+    <div class="quarter" @click="quarterMask = true">
       <!-- :style="{width: type == 0 ? '2.5rem': '4.2rem'}" -->
-      <img class="Calendar" src="../../assets/image/Calendar.png" alt />
-      <p>{{selectName}}</p>
+      <p>{{ selectName }}</p>
       <img class="up" src="../../assets/image/up.png" alt />
     </div>
     <transition>
       <div class="mask_cont_box" v-if="quarterMask">
         <ul class="mask_cont">
           <li
-            v-for="(item,index) of selectList"
+            v-for="(item, index) of selectList"
             :key="index"
-            :class="{active: index == selectId}"
-            :index="index"
-            :id="item.id"
-            @click="handleSelect(index)"
-            class="border_1px"
-          >{{item.label}}</li>
+            :class="{active: item.value == selectDate}"
+            @click="handleSelect(item.value)"
+          >
+            {{ item.label }}
+          </li>
         </ul>
         <div class="d1"></div>
       </div>
     </transition>
     <transition>
-      <div class="quarter_mask" v-if="quarterMask" @click="closeMask"></div>
+      <div class="quarter_mask" v-if="quarterMask" @click="quarterMask = false"></div>
     </transition>
   </div>
 </template>
 
 <script>
-
-import { getNowTime } from '../../utils'
 export default {
   props: {
-    type: {
-      default: 0
-    }
+    selectList: {
+      default: function() {
+        return [];
+      }
+    },
+    selectId: String
   },
   data() {
     return {
       quarterMask: false,
-      selectId: 0,
-      selectList: [],
       selectName: '',
-      selectDate: {}
+      selectDate: ''
     };
   },
-  created() { },
-  mounted() {
-    this.initData()
+  watch: {
+    selectId(val) {
+      this.selectDate = val
+      this.setDate()
+    }
   },
   methods: {
     setDate() {
-      this.selectName = this.selectList[this.selectId].label
-      this.selectDate = this.selectList[this.selectId].result
+      let index = this.selectList.findIndex(item=>{
+        return item.value == this.selectDate
+      })
+      if(index == undefined) return
+      this.selectName = this.selectList[index].label
       this.$emit("selectChange", this.selectDate);
     },
-    initData() {
-      this.selectList = getNowTime(this.type)
-      this.setDate()
-    },
-    selectMask() {
-      this.quarterMask = true;
-    },
-    closeMask() {
-      this.quarterMask = false;
-    },
-    handleSelect(index) {
-      this.selectId = index
-      this.setDate()
+    handleSelect(value) {
+
+      this.$emit("changeId", value)
       this.quarterMask = false;
     }
   }
 };
 </script>
 
-<style scoped lang='less'>
+<style scoped lang="less">
 .quarter_container {
   position: relative;
   height: 0.42rem;
   .mask_cont_box {
     position: absolute;
     background: #ffffff;
-    right: 0.3rem;
+    right: 0;
     top: 0.6rem;
     z-index: 1003;
     box-shadow: 0 0.02rem 0.12rem 0 rgba(154, 158, 173, 0.4);
@@ -124,7 +116,8 @@ export default {
   border-radius: 0.08rem;
   float: right;
   display: flex;
-  padding-right: 0.25rem;
+  padding: 0 0.2rem;
+
   .Calendar {
     width: 0.3rem;
     height: 0.3rem;
@@ -137,7 +130,7 @@ export default {
   .up {
     width: 0.14rem;
     height: 0.08rem;
-    margin: auto 0.1rem auto 0.2rem;
+    margin: auto 0 auto 0.24rem;
   }
 }
 .v-enter-active,
@@ -148,7 +141,7 @@ export default {
 .v-leave-to {
   opacity: 0;
 }
-.quarter_mask{
+.quarter_mask {
   width: 100%;
   height: 100%;
   position: fixed;

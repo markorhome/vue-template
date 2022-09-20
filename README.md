@@ -1,7 +1,7 @@
-# margin_trading
+# 移动模版
 
 > A Vue.js project
-
+# https://blog.csdn.net/jones2000/article/details/90272733
 ## Build Setup
 
 ``` bash

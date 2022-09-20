@@ -1,0 +1,64 @@
+<my-table 
+    :headData="headData" 
+    :bodyData="bodyData" 
+    @sortChange="sortChange"
+    :defaultSort="{order: 'desc',prop: 'user1'}"
+    @cell-click="cellclick"
+
+    @goModify="modifyClick" 
+    @goDelete="deleteClick">
+        <template #default>
+            <span data-func="goModify">修改</span>
+            <span data-func="goDelete">删除</span>
+        </template>
+        <!-- <template #user_name="{ value, styles }">
+            <div class="cell" :style="styles">{{value}}</div>
+        </template> -->
+</my-table>
+headData  表头数据
+bodyData  表格数据
+sortChange  排序回调方法
+defaultSort  默认排序属性
+cell-click  点击单元格回掉
+data-func 自定义事件
+fixed   左侧第一列固定
+
+headData = [
+    {
+        name: '账号',
+        prop: 'user_name',
+        style: {
+        // fontSize: '22px',
+           color: 'red'
+        },
+        width: '2.2rem',
+        isSort: true,
+        align: 'right',
+        color: {
+            1: '#f00',
+            2: '#ff0',
+            3: '#0f0',
+            4: '#0ff'
+        },
+        colorProp: 'user4',
+    }
+]
+width  列的宽度   左侧第一列固定时或者双表头时 width 必须
+style 改变列的样式
+align  对其方式  默认center  
+isSort  排序  默认false 
+colorProp  改变值的颜色  需要改的值的表头属性  表头里需要带color对象  key 是 要改的值  value是对应值的颜色
+
+bodyData = [
+    user5: '222222222'
+    htmluser5: `<span style="color: red">11111111</span>`
+]
+html+属性   用html代替原有的值    html渲染 〉 表头属性渲染
+   
+<template #user_name="{ value, styles }">
+    <div class="cell" :style="styles">{{value}}</div>
+</template> 
+
+slot 作用和html+属性一样 替换掉属性值   slot > 表头属性渲染
+
+html + 属性和slot相比  html+属性 更灵活  可以让每一列的值都不一样  slot 每一列的值都一样  例如  给每一行加一个按钮可用slot

@@ -37,14 +37,19 @@ Vue.filter('code', function(value) {
     if(!value) return ''
     return value.substr(0,6)
 })
-Vue.filter('poolType', function(value) {
-    if(!value) return ''
-    let type = {
-        '1': '不变',
-        '2': '加仓',
-        '3': '减仓',
-        '4': '新进',
-        '5': '退出'
+Vue.filter('formatDate', function(value) {
+
+    value = value + "";
+    var value1
+    var value2
+    if (value.length > 5) {
+        value1 = value.slice(0, 2)
+        value2 = value.slice(2, 4)
+    } else {
+        value1 = value.slice(0, 1)
+        value2 = value.slice(2, 4)
     }
-    return type[value]
+    // var value3 = value.slice(6, 8)
+
+    return value1 + ':' + value2
 })

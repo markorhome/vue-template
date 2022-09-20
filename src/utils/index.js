@@ -183,9 +183,6 @@ export function addClass (el, className) {
    newClass.push(className)
    el.className = newClass.join(' ')
  }
-export function dateTrans(date) {
-   return date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6, 8)
-}
 
 export function dateQ(date) {
 
@@ -216,122 +213,33 @@ export function numAbb(value) {
    }
 }
 
-export function setStepData(data) {
-   let list = [],result= [], time
-
-   data && data.map(item => {
-
-      list.push({
-         time: item.publishedAt.substr(5,2) + '月',
-         data: [item.title],
-         articleType: [item.articleType],
-         selectType: [item.selectType],
-         articleUrl: [item.articleUrl]
-      })
-   })
-   list.map(item=>{
-   
-      if(time != item.time) {
-         time = item.time
-         result.push(item)
-      }else{
-         result[result.length-1].data.push(item.data[0])
-         result[result.length-1].articleUrl.push(item.articleUrl[0])
-         result[result.length-1].articleType.push(item.articleType[0])
-         result[result.length-1].selectType.push(item.selectType[0])
-      }
-   })
-   return result
-}
-
-export function bannerData(data) {
-   let time
-
-   data && data.map(item => {
-      item.list = []
-      item.sonList.splice(2)
-      item.lecturerArticleList && item.lecturerArticleList.map(item1=>{
-
-         item.list.push({
-            time: item1.createdAt.substr(5,2) + '月',
-            data: [item1.title],
-            articleUrl: [item1.contentUrl],
-            articleType: [item1.articleType],
-            avatar: [item1.avatar]
-         })
-      })
-   })
-   data && data.map(item => {
-      item.stepData = []
-      item.list && item.list.map(item1=>{
-
-         if(time != item1.time) {
-            time = item1.time
-            item.stepData.push(item1)
-         }else{
-            item.stepData[item.stepData.length-1].data.push(item1.data[0])
-            item.stepData[item.stepData.length-1].articleUrl.push(item1.articleUrl[0])
-            item.stepData[item.stepData.length-1].articleType.push(item1.articleType[0])
-            item.stepData[item.stepData.length-1].avatar.push(item1.avatar[0])
-         }
-      })
-   })
-   return data
-}
-
-export function setThemeTree(data) {
-
-   let arr = setTableData(data,true,true)
-   // data && data.map(item => {
-   //    if (item.sonList && item.sonList.length) {
-   //       item.children = item.sonList
-   //       setThemeTree(item.children)
-   //    }
-   // })
-
-   return arr
-}
-let index = 11
-export function setTableData(data,hasChild, level) {
-   let list = []
-   //        name: "航运",
-   //     code: "000001",
-   //     zdf: "+5%",
-   //     lzgN: "中远海控",
-   //     lzgZDF: "+6%",
-   //     price: "7.82",
-   //     zdp: "3/2/1",
-   //     rxly: '主营国际船舶'
-   let param
-   data && data.map(item => {
-      param = {
-         name: item.conceptName,
-         zdf: item.ratio,
-         lzgN: item.maxRise,
-         zdp: [item.riseNum, item.fallNum, item.calmNum],
-         code: item.conceptCode,
-         lzgZDF: item.pctChg,
-         price: item.stockClose,
-         reason: item.reason,
-         articleNum: item.articleNum,
-         conceptLevel: item.conceptLevel
-      }
-
-      param.id=index ++
-      if(hasChild && item.sonNum > 0) {
-         // param.children = setTableData(item.sonList,true)
-         param.hasChildren = true
-         if(level) {
-            param.level = 0
-         }else{
-            param.level = 1
-         }
-      }
-      list.push(param)
-   })
-   return list
-}
 export function selectFrom(minval,maxval) {
    var choice = maxval - minval
    return Math.floor(Math.random()*choice + minval)
+}
+export function time_range () {
+   var strb = ['09','30'];
+   if (strb.length != 2) {
+       return false;
+   }
+
+   var stre = ['15','00'];
+   if (stre.length != 2) {
+       return false;
+   }
+
+   var b = new Date ();
+   var e = new Date ();
+   var n = new Date ();
+
+   b.setHours (strb[0]);
+   b.setMinutes (strb[1]);
+   e.setHours (stre[0]);
+   e.setMinutes (stre[1]);
+
+   if (n.getTime () - b.getTime () > 0 && n.getTime () - e.getTime () < 0) {
+       return true;
+   } else {
+       return false;
+   }
 }

@@ -3,7 +3,6 @@
     <!-- <navigation v-if="isNavShow" /> -->
     <van-loading type="spinner" color="#1989fa" v-show="loading" class="main-loading" ref="loading"/>
     <router-view />
-    <introduce v-if="isShow" />
   </div>
 </template>
 

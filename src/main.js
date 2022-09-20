@@ -5,21 +5,19 @@ import App from './App'
 import router from './router'
 
 import Vant from 'vant';
-import VueWechatTitle from 'vue-wechat-title';
-import { Input, Table, TableColumn } from 'element-ui';
 
 import './assets/css/resets.css';
 import 'vant/lib/index.css';
-import 'element-ui/lib/theme-chalk/index.css'
 
 import store from './store'
 import * as filter from './common/filter'
 
-import { $getData } from "./api"
+import { $getData ,$POST} from "./api"
 Vue.prototype.$getData = $getData
+Vue.prototype.$POST = $POST
 
 Vue.config.productionTip = false
-Vue.use(VueWechatTitle).use(Vant).use(Table).use(Input).use(TableColumn)
+Vue.use(Vant)
 
 /* eslint-disable no-new */
 new Vue({

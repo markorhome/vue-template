@@ -13,6 +13,13 @@ export default new Router({
             meta: {
                 title: '',
             }
+        },
+        {
+            path: '/abc',
+            name: 'HQ',
+            component: resolve => require(['@/components/HQChart/index'], resolve),
+            meta: {}
+              
         }
     ]
 })
